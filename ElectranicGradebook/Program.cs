@@ -12,6 +12,7 @@ namespace ElectranicGradebook
         static void Main(string[] args)
         {
 
+
             StudentDetails StudentDetailslist1 = SubjectsInput();
             Console.WriteLine(StudentDetailslist1.StudentName);
             Console.WriteLine(StudentDetailslist1.Class);
