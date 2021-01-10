@@ -8,25 +8,36 @@ namespace ElectranicGradebook
 {
     class Program
     {
-        
+       static int Numberofsub;
         static void Main(string[] args)
         {
 
 
             StudentDetails StudentDetailslist1 = SubjectsInput();
-            Console.WriteLine(StudentDetailslist1.StudentName);
-            Console.WriteLine(StudentDetailslist1.Class);
-           
+
+
             foreach (var s in StudentDetailslist1.Subjects)
             {
-                Console.WriteLine(s.Key);
-                Console.WriteLine(s.Value.Marks);
-                Console.WriteLine(s.Value.Grade);
-              
-                
+               
+                string[] spliting = s.Value.Grade.Split('-');
+                string Disply = "--------------------------------------------------------------------------------------------------------------@" +
+
+                        "\tName \t" + " | " + " \t\tSubject\t" + " | " + " \tScore/100\t" + " | " + "  \tLetter Grade\t" + " | " + " Status\t" + " | @" +
+                        "---------------------------------------------------------------------------------------------------------------@"
+                        + "     " + StudentDetailslist1.StudentName + "\t\t" + s.Key + "\t\t\t" + s.Value.Marks + "\t\t" + spliting[0] + "\t\t\t" + s.Value.Grade + " ";
+                Disply = Disply.Replace("@", "@" + System.Environment.NewLine);
+                Console.WriteLine(Disply);
+
             }
-            Console.WriteLine(Convert.ToString( StudentDetailslist1.Total)+"/"+"500");
-            Console.WriteLine(StudentDetailslist1.Average);
+            Console.WriteLine($"Total Score : {Convert.ToString(StudentDetailslist1.Total) + "/" + Numberofsub * 100}");
+            Console.WriteLine($"Average mark : { StudentDetailslist1.Average}");
+            Console.WriteLine($"Low Score: {StudentDetailslist1.Subjects.Values[0].Marks} in {StudentDetailslist1.Subjects.Keys[0]}");
+            Console.WriteLine($"Hight Score:{ StudentDetailslist1.Subjects.Values[StudentDetailslist1.Subjects.Count() - 1].Marks} in { StudentDetailslist1.Subjects.Keys[StudentDetailslist1.Subjects.Count() - 1]}");
+
+
+        
+
+           
             Console.ReadLine();
         }
         public static int Intinput(string Number)
@@ -93,7 +104,7 @@ namespace ElectranicGradebook
             Console.WriteLine($"Enter the Class : { StudentDetailslist.StudentName}");
             StudentDetailslist.Class= Intinput(Console.ReadLine());
             Console.WriteLine($"Enter the Nuumberofsubjects : { StudentDetailslist.StudentName}");
-           int Numberofsub = Intinput(Console.ReadLine());
+            Numberofsub = Intinput(Console.ReadLine());
 
             for (int i= 1; i <= Numberofsub; i++)
             {
@@ -106,10 +117,15 @@ namespace ElectranicGradebook
                 markslist.Grade = Mark >= 90 ? "S-Distination" : Mark>=80 ? "A-Firstclass" :Mark>70 ? "B-Firstclass" :Mark>=50 ? "D-SecondClass" :Mark <50 ? "F-Fail" :"";
                 
                 empty.Add(Subject, markslist);
-              
-              
-                    StudentDetailslist.Total += Mark;
+
+
+                StudentDetailslist.Total += Mark;
+
+                
                 StudentDetailslist.Average = Convert.ToInt32(StudentDetailslist.Total )/ Numberofsub;
+
+                StudentDetailslist.Subjects =empty;
+                StudentDetailslist.Subjects.Values.OrderBy(x => x.Marks);
             }
 
 
